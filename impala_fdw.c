@@ -40,18 +40,18 @@ PG_MODULE_MAGIC ;
 /*
   FDW handler function:  returns the callback function pointers 
 */
-Datum imp_fdw_handler(PG_FUNCTION_ARGS) {
+Datum impala_fdw_handler(PG_FUNCTION_ARGS) {
   FDWRoutine *routine = Makeode(FdwRoutine) ;
 
-  fdwroutine->GetForeignRelSize = imp_get_foreign_rel_size ;
-  fdwroutine->GetForeignPaths = imp_get_foreign_paths ;
-  fdwroutine->GetForeignPlan = imp_get_foreign_plan ;
-  fdwroutine->ExplainForeignScan = imp_explain_foreign_scan ;
-  fdwroutine->BeginForeignScan = imp_begin_foreign_scan ;
-  fdwroutine->IterateForeignScan = imp_iterate_foreign_scan ;
-  fdwroutine->ReScanForeignScan = imp_rescan_foreign_scan ;
-  fdwroutine->EndForeignScan = imp_end_foreign_scan ;
-  fdwroutine->AnalyzeForeignTable = imp_analyze_foreign_table ;
+  fdwroutine->GetForeignRelSize = impala_get_foreign_rel_size ;
+  fdwroutine->GetForeignPaths = impala_get_foreign_paths ;
+  fdwroutine->GetForeignPlan = impala_get_foreign_plan ;
+  fdwroutine->ExplainForeignScan = impala_explain_foreign_scan ;
+  fdwroutine->BeginForeignScan = impala_begin_foreign_scan ;
+  fdwroutine->IterateForeignScan = impala_iterate_foreign_scan ;
+  fdwroutine->ReScanForeignScan = impala_rescan_foreign_scan ;
+  fdwroutine->EndForeignScan = impala_end_foreign_scan ;
+  fdwroutine->AnalyzeForeignTable = impala_analyze_foreign_table ;
 
   PG_RETURN_POINTER(fdwroutine) ;
 }
@@ -61,6 +61,6 @@ Datum imp_fdw_handler(PG_FUNCTION_ARGS) {
   Validate options for FOREIGN DATA WRAPPER, SERVER USER MAPPING, or FOREIGN 
   TABLE
 */
-Datum imp_fdw_validator(PG_FUNCTION_ARGS) {
+Datum impala_fdw_validator(PG_FUNCTION_ARGS) {
   /* TODO */
 }
