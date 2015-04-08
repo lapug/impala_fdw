@@ -1,0 +1,5 @@
+# impala_fdw extension
+comment = 'foreign-data wrapper for hadoop impala'
+default_version = '0.1'
+module_pathname = '$libdir/impala_fdw'
+relocatable = true
