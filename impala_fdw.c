@@ -36,6 +36,11 @@
 
 PG_MODULE_MAGIC ;
 
+/* This requires PostgreSQL 9.3 or above. */
+#if (PG_VERSION_NUM < 90300
+#  error("PostgreSQL 9.3 or greater required.")
+#endif
+
 
 /*
   FDW handler function:  returns the callback function pointers 
