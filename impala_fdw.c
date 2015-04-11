@@ -63,9 +63,83 @@ Datum impala_fdw_handler(PG_FUNCTION_ARGS) {
 
 
 /* 
-  Validate options for FOREIGN DATA WRAPPER, SERVER USER MAPPING, or FOREIGN 
-  TABLE
+
+  Validator functions
+
 */
-Datum impala_fdw_validator(PG_FUNCTION_ARGS) {
-  /* TODO */
+
+/* 
+  Validate options for FDW create-type functions
+*/
+Datum impala_fdw_validator(PG_FUNCTION_ARGS) { /* TODO */
+  List *optlist = untransformRelOptions(PG_GETARG_DATUM(0)) ;
+  Oid catalog = PG_GETARG_OID(1) ;
+  ListCell *cell ;
+  char *impala_hostname = NULL ;
+  char *impala_port = NULL ;
+  char *impala_user = NULL ;
+  char *impala_password = NULL ;
+  int i, j ;
+
+  //for (opt = optlist; opt != NULL; opt++) {
+  for (i = 0; optlist[i] != NULL, i++) {
+    DefElem *de = (DefElem *) lfirst(opt) ;
+
+    if (! impala_valid_option(de->defname, catalog)) {
+      //TODO
+      StringInfoData info ;
+
+      /* Spit back an error with a list of valid options */
+      initStringInfo(&info) ;
+      for (j = 0; impala_option_list[j] != NULL, j++) {
+        appendStringInfo(&info, "\n%s", impala_options_list[j]->optname) ;
+      }
+
+      ereport(ERROR, (errcode(ERRCODE_FDW_INVALID_OPTION_NAME), \
+              errmsg("Invalid option:  \"%s\"", de->defname), \
+              errhint("Valid options: %s\n", info.len ? info.data : "<none>"))
+      ) ;
+    }
+
+    //TODO: valid options
+  }
+} /* impala_fdw_validator() */
+
+
+
+/* 
+  Check an option name against the list of valid options
+*/
+static bool impala_valid_option(const char *optname, Oid context) {
+  struct impala_fdw_option *opt ;
+
+  for (opt = impala_option_list; opt->optname != NULL; opt++) {
+    if ((context == opt->optcontext) && (strcmp(optname, opt->optname) == 0)) {
+      return(true) ;
+    }
+  }
+  return(false) ;
 }
+
+
+/*
+impala_get_foreign_rel_size() {
+}
+impala_get_foreign_paths() {
+}
+impala_get_foreign_plan() {
+}
+impala_explain_foreign_scan() {
+}
+impala_begin_foreign_scan() {
+}
+impala_iterate_foreign_scan() {
+}
+impala_rescan_foreign_scan() {
+}
+impala_end_foreign_scan() {
+}
+impala_analyze_foreign_table() {
+}
+*/
+
