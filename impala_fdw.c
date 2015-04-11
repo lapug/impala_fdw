@@ -31,7 +31,7 @@
 */
 
 
-#include "postgres.h"
+#include "impala_fdw.h"
 
 
 PG_MODULE_MAGIC ;
